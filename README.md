@@ -14,17 +14,15 @@ pip install git+https://github.com/jmg049/DataSets.git
 After installation, you can use the `mm_dataset` command-line tool:
 
 Options:
-- `--dataset`: Dataset to download (currently only supports "mmimdb")
+- `--dataset`: Dataset to download (choices are: ["mmimdb", "avmnist", "kinetics-sounds"])
 - `--download_dir`: Directory to save the dataset (default: "data")
-- `--unzip`: Unzip the resulting download file 
+- `--unzip`: Unzip the resulting download file. Default: False
+- `--del_zip`: Flag indicating the zip file should be deleted after unzipping. Default: False
 
 ## Available Datasets
 
 Currently, the following datasets are supported:
 
 - MMIMDb: Multimodal IMDb dataset
-
-In future:
-- Kinetics-Sounds 
+- Kinetics-Sounds
 - AVMNIST
-- More

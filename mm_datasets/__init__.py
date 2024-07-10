@@ -27,6 +27,7 @@ def parse_args() -> Namespace:
         choices=["mmimdb", "avmnist", "kinetics-sounds"],
     )
     parser.add_argument("--unzip", action="store_true", help="Flag indicating whether the downloaded zip should be unzipped.")
+    parser.add_argument("--del_zip",action="store_true", help="Can be used alongside the unzip flag to also delete the orignal downloaded zip.")
     return parser.parse_args()
 
 
@@ -77,6 +78,9 @@ def main():
         with zipfile.ZipFile(data_name, "r") as zip_ref:
             zip_ref.extractall(args.download_dir)
 
+        if args.del_zip:
+            os.remove(f"{args.download_dir}/{args.dataset}.zip")
+        
     ## cleap up any ".part" files
     for f in [os.path.join(args.download_dir, f) for f in os.listdir(args.download_dir)]:
         if Path(f).stem == "part":

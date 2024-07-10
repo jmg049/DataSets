@@ -19,10 +19,11 @@ def parse_args() -> Namespace:
     parser.add_argument(
         "--dataset",
         type=str,
-        default="mmimdb",
+        required=True,
         help="Dataset to download",
         choices=["mmimdb"],
     )
+    parser.add_argument("--unzip", action="store_true", help="Flag indicating whether the downloaded zip should be unzipped.")
     return parser.parse_args()
 
 
@@ -56,6 +57,16 @@ def download_dataset(dataset: DataSet, download_dir: Union[str, Path, os.PathLik
             raise ValueError("Invalid dataset")
 
 
-if __name__ == "__main__":
+def main():
     args = parse_args()
     download_dataset(DataSet.from_string(args.dataset), args.download_dir)
+    
+    if args.unzip:
+        import zipfile
+        data_name = os.path.join(args.download_dir, f"{args.dataset}.zip")
+        print(f"Unzipping: {data_name}")
+        with zipfile.ZipFile(data_name, "r") as zip_ref:
+            zip_ref.extractall(args.download_dir)
+
+if __name__ == "__main__":
+    main()

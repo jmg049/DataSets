@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mm_datasets"
+dynamic = ["version"]
+description = "A tool for downloading multimodal datasets"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = [
+    "gdown",
+]
+
+[project.scripts]
+mm_dataset = "mm_datasets:main"
+
+[tool.setuptools_scm]

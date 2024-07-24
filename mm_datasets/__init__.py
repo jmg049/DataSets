@@ -1,6 +1,6 @@
-from enum import Enum
-from argparse import ArgumentParser, Namespace
 import os
+from argparse import ArgumentParser, Namespace
+from enum import Enum
 from pathlib import Path
 from typing import Union
 
@@ -9,23 +9,40 @@ import gdown
 MM_IMDB_URL = (
     "https://drive.google.com/uc?export=download&id=1rdB2HpsGn0dI_9fD1MQt82Qa8D8RVLFM"
 )
-
 AVMNIST_URL = (
     "https://drive.google.com/uc?export=download&id=1DMPiR6SckrgpycsiaeyIzDENTRGej3o3"
 )
 KINETICS_SOUNDS_URL = (
     "https://drive.google.com/uc?export=download&id=1KNORgh7AIpPHUYd9M_CTyABDtt74UUyd"
 )
-
 MOSI_URL = ""
 MOSEI_URL = (
     "https://drive.google.com/uc?export=download&id=1KZTYSoPjk1k9SEQ4YfbeURPPMXtcdjog"
 )
-MSP_IMPROV_URL = "https://drive.google.com/file/d/1TayFFgVFTl8HlYjOak8zRXr4-t1yu2Xh/view?usp=drive_link"
-IEMOCAP_URL = "https://drive.google.com/file/d/1W1k-_-VmE1CmHrzcAmEkAQvxKTJcOoh8/view?usp=drive_link"
+MSP_IMPROV_URL = (
+    "https://drive.google.com/uc?export=download&id=1TayFFgVFTl8HlYjOak8zRXr4-t1yu2Xh"
+)
+IEMOCAP_URL = (
+    "https://drive.google.com/uc?export=download&id=1W1k-_-VmE1CmHrzcAmEkAQvxKTJcOoh8"
+)
+GENSPEECH_URL = (
+    "https://drive.google.com/uc?export=download&id=18s3zdf95nug1rSM9jkMKdMkMO3iW_i7l"
+)
+TCD_VOIP_URL = (
+    "https://drive.google.com/uc?export=download&id=1SsYKpE62UiqUY_tJbmlv8gf7lWEAWupW"
+)
+AUDIOSET_URBAN_RURAL_URL = (
+    "https://drive.google.com/uc?export=download&id=1iwTAUYV8qj52e5tey8_b8SWib2g0vcXe"
+)
 
 
 def parse_args() -> Namespace:
+    """
+    Parse command-line arguments for the dataset downloader.
+
+    Returns:
+        Namespace: An object containing the parsed arguments.
+    """
     parser = ArgumentParser("Tool for downloading multimodal datasets")
     parser.add_argument(
         "--download_dir", type=str, default="data", help="Directory to save the dataset"
@@ -43,6 +60,9 @@ def parse_args() -> Namespace:
             "mosei",
             "msp-improv",
             "iemocap",
+            "genspeech",
+            "tcd_voip",
+            "audioset_urban_rural",
         ],
     )
     parser.add_argument(
@@ -59,6 +79,9 @@ def parse_args() -> Namespace:
 
 
 class DataSet(Enum):
+    """
+    Enum class representing available datasets.
+    """
     MMIMDb = "mmimdb"
     AVMNIST = "avmnist"
     KINETICS_SOUNDS = "kinetics-sounds"
@@ -66,13 +89,31 @@ class DataSet(Enum):
     MOSEI = "cmu-mosei"
     MSP_IMPROV = "msp-improv"
     IEMOCAP = "iemocap"
+    GENSPEECH = "genspeech"
+    TCD_VOIP = "tcd_voip"
+    AUDIOSET_URBAN_RURAL = "audioset_urban_rural"
     INVALID = None
 
     def __str__(self):
+        """
+        Return the string representation of the dataset.
+
+        Returns:
+            str: The dataset name (lowercase).
+        """
         return self.value
 
     @staticmethod
     def from_string(label: str):
+        """
+        Convert a string to a DataSet enum value.
+
+        Args:
+            label (str): The string representation of the dataset.
+
+        Returns:
+            DataSet: The corresponding DataSet enum value, or DataSet.INVALID if not found.
+        """
         label = label.lower()
         for ds in DataSet:
             if str(ds) == label:
@@ -81,6 +122,16 @@ class DataSet(Enum):
 
 
 def download_dataset(dataset: DataSet, download_dir: Union[str, Path, os.PathLike]):
+    """
+    Download the specified dataset to the given directory.
+
+    Args:
+        dataset (DataSet): The dataset to download.
+        download_dir (Union[str, Path, os.PathLike]): The directory to save the downloaded dataset.
+
+    Raises:
+        ValueError: If an invalid dataset is specified.
+    """
     if not isinstance(download_dir, Path):
         download_dir = Path(download_dir)
 
@@ -112,7 +163,19 @@ def download_dataset(dataset: DataSet, download_dir: Union[str, Path, os.PathLik
             gdown.download(
                 IEMOCAP_URL, str(download_dir / f"{str(DataSet.IEMOCAP)}.zip")
             )
-
+        case DataSet.GENSPEECH:
+            gdown.download(
+                GENSPEECH_URL, str(download_dir / f"{str(DataSet.GENSPEECH)}.zip")
+            )
+        case DataSet.TCD_VOIP:
+            gdown.download(
+                TCD_VOIP_URL, str(download_dir / f"{str(DataSet.TCD_VOIP)}.zip")
+            )
+        case DataSet.AUDIOSET_URBAN_RURAL:
+            gdown.download(
+                AUDIOSET_URBAN_RURAL_URL,
+                str(download_dir / f"{str(DataSet.AUDIOSET_URBAN_RURAL)}.zip"),
+            )
         case DataSet.INVALID:
             raise ValueError("Invalid dataset")
 

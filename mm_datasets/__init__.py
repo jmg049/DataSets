@@ -15,7 +15,9 @@ AVMNIST_URL = (
 KINETICS_SOUNDS_URL = (
     "https://drive.google.com/uc?export=download&id=1KNORgh7AIpPHUYd9M_CTyABDtt74UUyd"
 )
-MOSI_URL = ""
+MOSI_URL = (
+    "https://drive.google.com/uc?export=download&id=1Gi0oy-vvxItr75vCRTcLW9aoX6bSOZgr"
+)
 MOSEI_URL = (
     "https://drive.google.com/uc?export=download&id=1KZTYSoPjk1k9SEQ4YfbeURPPMXtcdjog"
 )
